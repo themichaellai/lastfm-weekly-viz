@@ -7,8 +7,9 @@ var width = 900,
     height = 600;
 
 
-var color = d3.scale.linear()
-    .range(["#aad", "#556"]);
+//var color = d3.scale.linear()
+//    .range(["#aad", "#556"]);
+var color = d3.scale.category20();
 
 var svg = d3.select("#viz-container").append("svg")
     .attr("width", width)
@@ -46,19 +47,33 @@ d3.json('final.json', function(e, json) {
     .y1(function(d) { return y(d.y0 + d.y); });
 
   var dateFormatter = d3.time.format('%x');
-  var $artistInfo = $('#viz-info .artist-info');
-  var $timeInfo = $('#viz-info .time-info');
+  var vizSvg = svg.append('g');
+  var artistInfo = svg.append('g').append('text');
+  var timeInfo = d3.select('#viz-info .time-info');
   var weeklyInfoTable = d3.select('#viz-info .weekly-info').append('table');
-  svg.selectAll(".layer")
+  vizSvg.selectAll(".layer")
       .data(layers)
     .enter().append("path")
       .attr('class', 'layer')
       .attr("d", function(d) { return area(d.counts); })
       .style("fill", function() { return color(Math.random()); })
-      .on('mouseover', function(d, i) {
-        $artistInfo.text(d.name);
-
+      .on('mousemove', function(d, i) {
+        var mousePos = d3.mouse(this);
+        artistInfo.text(d.name)
+          .attr('x', function() {
+            if (width - mousePos[0] < 200) {
+              return mousePos[0] - 70;
+            } else {
+              return mousePos[0] + 10;
+            }
+          })
+          .attr('y', function() { return mousePos[1] - 10; })
+          .style('color', function() { return 'red'; });
+      })
+      .on('mouseout', function() {
+        artistInfo.text('');
       });
+
   d3.select('svg')
     .on('mousemove', function() {
         var i = findDate(json[0].counts, x.invert(d3.mouse(this)[0]));
@@ -84,6 +99,6 @@ d3.json('final.json', function(e, json) {
             .attr('class', function(d) { return d.name; });
         rows.exit().remove();
 
-        $timeInfo.text(dateFormatter(new Date(json[0].counts[i].time[0] * 1000)));
+        timeInfo.text(dateFormatter(new Date(json[0].counts[i].time[0] * 1000)));
     });
 });

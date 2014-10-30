@@ -34,20 +34,22 @@ table {
   width: 900px;
   height: 600px;
 }
-
 .count:after {
   content: ' plays';
 }
+.artist-info {
+  position: absolute;
+}
 </style>
 <div class="container">
-  <div id="viz-container" class="pane"></div>
-  <div id="viz-info" class="pane">
+  <div id="viz-container" class="pane">
     <div class="artist-info"></div>
+  </div>
+  <div id="viz-info" class="pane">
     <div class="time-info"></div>
     <div class="weekly-info"></div>
   </div>
 </div>
 <script src="//d3js.org/d3.v3.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
 <script src="index.js"></script>
