@@ -1,53 +1,57 @@
 <!DOCTYPE html>
+<html>
 <meta charset="utf-8">
-<title>lastfm weekly viz</title>
-<style>
+<head>
+  <title>lastfm weekly viz</title>
+  <style>
 
-body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  margin: auto;
-  position: relative;
-  width: 1300px;
-  font-size: 14px;
-}
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin: auto;
+    position: relative;
+    width: 1300px;
+    font-size: 14px;
+  }
 
-button {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-}
-.pane {
-  float: left;
-}
-.container {
-  margin-top: 20px;
-  overflow: hidden;
-}
-#viz-info {
-  width: 200px;
-  margin-left: 40px;
-}
-table {
-  font-size: .8em;
-  border-spacing: 0px
-}
-#viz-container {
-  width: 1000px;
-  height: 800px;
-}
-.count:after {
-  content: ' plays';
-}
-.artist-info {
-  position: absolute;
-}
-ul.links {
-  padding-left: 0px;
-}
-li {
-  display: inline
-}
-</style>
+  button {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
+  .pane {
+    float: left;
+  }
+  .container {
+    margin-top: 20px;
+    overflow: hidden;
+  }
+  #viz-info {
+    width: 200px;
+    margin-left: 40px;
+  }
+  table {
+    font-size: .8em;
+    border-spacing: 0px
+  }
+  #viz-container {
+    width: 1000px;
+    height: 800px;
+  }
+  .count:after {
+    content: ' plays';
+  }
+  .artist-info {
+    position: absolute;
+  }
+  ul.links {
+    padding-left: 0px;
+  }
+  li {
+    display: inline
+  }
+  </style>
+</head>
+<body>
 <div class="container">
   <div class="info">
     <h1>my music listening history</h1>
@@ -67,3 +71,13 @@ li {
 <script src="//d3js.org/d3.v3.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
 <script src="index.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-35675007-1', 'auto');
+  ga('send', 'pageview');
+</script>
+</body>
+</html>
