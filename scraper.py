@@ -1,6 +1,7 @@
 import requests
 import json
 import time
+import sys
 
 API_KEY = ''
 SERVER = 'http://ws.audioscrobbler.com/2.0/'
@@ -21,7 +22,9 @@ def get_weekly_chart(start, end):
     try:
         return json.loads(req.text)['weeklyartistchart']['artist']
     except KeyError:
-        print req.text
+        sys.stderr.write('error getting %s - %s' % (start, end))
+        time.sleep(5)
+        return get_weekly_chart(start, end)
 
 
 def chunks(a_list, n):
@@ -40,7 +43,7 @@ def rate_limit(func, args, burst_num, sleep_time):
 
 
 if __name__ == '__main__':
-    valid_times = get_valid_times()
+    valid_times = get_valid_times()[-104:]
     args = [(v['from'], v['to']) for v in valid_times]
-    charts = list(rate_limit(get_weekly_chart, args, 5, 1))
+    charts = list(rate_limit(get_weekly_chart, args, 1, 2))
     print json.dumps([{'time': t, 'list': c} for t, c in zip(args, charts)])
