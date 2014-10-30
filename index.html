@@ -20,10 +20,11 @@ button {
   float: left;
 }
 .container {
-  margin-top: 40px;
+  margin-top: 20px;
+  overflow: hidden;
 }
 #viz-info {
-  width: 300px;
+  width: 200px;
   margin-left: 40px;
 }
 table {
@@ -31,8 +32,8 @@ table {
   border-spacing: 0px
 }
 #viz-container {
-  width: 900px;
-  height: 600px;
+  width: 1000px;
+  height: 800px;
 }
 .count:after {
   content: ' plays';
@@ -40,8 +41,18 @@ table {
 .artist-info {
   position: absolute;
 }
+ul.links {
+  padding-left: 0px;
+}
+li {
+  display: inline
+}
 </style>
 <div class="container">
+  <div class="info">
+    <h1>my music listening history</h1>
+    <h2>data for the top fifty artists over a period of two years</h2>
+  </div>
   <div id="viz-container" class="pane">
     <div class="artist-info"></div>
   </div>
@@ -50,6 +61,9 @@ table {
     <div class="weekly-info"></div>
   </div>
 </div>
+<ul class="links">
+  <li><a href="https://github.com/themichaellai/lastfm-weekly-viz">github</a></li>
+</ul>
 <script src="//d3js.org/d3.v3.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
 <script src="index.js"></script>

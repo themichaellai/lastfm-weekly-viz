@@ -3,7 +3,7 @@ var stack = d3.layout.stack().offset("wiggle")
   .x(function(d) { return d.time[0]; })
   .y(function(d) { return d.count; });
 
-var width = 900,
+var width = 1000,
     height = 800;
 
 
