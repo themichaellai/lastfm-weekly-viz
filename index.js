@@ -4,11 +4,9 @@ var stack = d3.layout.stack().offset("wiggle")
   .y(function(d) { return d.count; });
 
 var width = 900,
-    height = 600;
+    height = 800;
 
 
-//var color = d3.scale.linear()
-//    .range(["#aad", "#556"]);
 var color = d3.scale.category20();
 
 var svg = d3.select("#viz-container").append("svg")
@@ -23,17 +21,13 @@ var findDate = function(counts, time) {
     }
   }
 };
-d3.json('final.json', function(e, json) {
+d3.json('data.json', function(e, json) {
   var x = d3.scale.linear()
       .domain([json[0].counts[0].time[0], json[0].counts[json[0].counts.length - 1].time[0]])
       .range([0, width]);
 
   json = json.map(function(artist, i) {
     return artist;
-  }).filter(function(artist) {
-    return ['Radiohead', 'Death Cab for Cutie', 'Kanye West', 'Spoon', 'Bloc Party', 'Flying Lotus',
-      'Nine Inch Nails', 'Frank Ocean', 'Coldplay', 'Tyler, the Creator', 'Gorillaz', 'Kid Cudi', 'of Montreal']
-        .indexOf(artist.name) >= 0;
   });
 
   var layers = stack(json);
@@ -51,6 +45,8 @@ d3.json('final.json', function(e, json) {
   var artistInfo = svg.append('g').append('text');
   var timeInfo = d3.select('#viz-info .time-info');
   var weeklyInfoTable = d3.select('#viz-info .weekly-info').append('table');
+
+  // Handle layers and hover behavior
   vizSvg.selectAll(".layer")
       .data(layers)
     .enter().append("path")
@@ -67,21 +63,29 @@ d3.json('final.json', function(e, json) {
               return mousePos[0] + 10;
             }
           })
-          .attr('y', function() { return mousePos[1] - 10; })
-          .style('color', function() { return 'red'; });
+          .attr('y', function() { return mousePos[1] - 10; });
+
+        d3.select(this)
+          .style('stroke-width', '2px')
+          .style('stroke', '#000');
       })
       .on('mouseout', function() {
         artistInfo.text('');
+        d3.select(this)
+          .style('stroke-width', '0px');
       });
 
+  // Handle weekly chart display
   d3.select('svg')
     .on('mousemove', function() {
         var i = findDate(json[0].counts, x.invert(d3.mouse(this)[0]));
         var weeklyStats = json.map(function(artist) {
           return {name: artist.name, count: artist.counts[i].count, start: artist.counts[i].time[0]};
-        }).sort(function(a, b) {
-          return b.count - a.count;
-        });
+        })
+          .filter(function(a) { return a.count > 0; })
+          .sort(function(a, b) {
+            return b.count - a.count;
+          });
 
         var rows = weeklyInfoTable
           .selectAll('tr')
